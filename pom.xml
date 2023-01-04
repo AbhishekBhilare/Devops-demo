@@ -10,8 +10,7 @@
 
   <properties>
       <!-- This property will be set by the Maven Dependency plugin -->
-<!--       <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk> -->
-	<java.version>11</java.version>
+      <annotatedJdk>${org.checkerframework:jdk8:jar}</annotatedJdk>
   </properties>
 
   <dependencies>
@@ -90,19 +89,22 @@
               </execution>
           </executions>
       </plugin>
-	<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>3.10.1</version>
-    <configuration>
-        
-	<fork>true</fork>
-	    <annotationProcessors>
+      <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+              <fork>true</fork>
+              <!-- Add all the checkers you want to enable here -->
+              <annotationProcessors>
                   <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
               </annotationProcessors>
-    </configuration>
-</plugin>
-
+              <compilerArgs>
+                  <!-- location of the annotated JDK, which comes from a Maven dependency -->
+                  <arg>-Xbootclasspath/p:${annotatedJdk}</arg>
+              </compilerArgs>
+          </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
